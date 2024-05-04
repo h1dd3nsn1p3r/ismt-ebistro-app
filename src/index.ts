@@ -1,28 +1,34 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { join } from "node:path";
-import { readFile } from "node:fs/promises";
 
 const app = new Hono();
 
+/**
+ * Function to generate a Fibonacci sequence up to n.
+ *
+ * @param n
+ * @returns Fibonacci number at position n
+ */
+function fibonacci(n: number): number {
+	if (n <= 1) return n;
+	return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+/**
+ * Return random number between 40 - 50.
+ *
+ * @returns number
+ */
+function getNumber(): number {
+	return Math.floor(Math.random() * 10) + 40;
+}
+
 app.get("/", async (c) => {
-	const path = join(process.cwd(), "/src/data.json");
-
-	const content = await readFile(path, "utf-8").catch((err) => {
-		return null;
-	});
-
-	// Just a fallback message if the data.json file is not found.
-	if (!content) {
-		const message = {
-			name: "Anuj Subedi",
-			message: "Welcome to enchanted bistro!",
-		};
-
-		return c.json(message);
-	}
-
-	return c.json(JSON.parse(content));
+	const content = {
+		message: "Welcome to enchanted bistro!",
+		data: fibonacci(getNumber()),
+	};
+	return c.json(content);
 });
 
 const port = 3000;
