@@ -20,7 +20,7 @@ function fibonacci(n: number): number {
  * @returns number
  */
 function getNumber(): number {
-	return Math.floor(Math.random() * 10) + 40;
+	return Math.floor(Math.random() * 10) + 35;
 }
 
 app.get("/", async (c) => {
@@ -31,7 +31,7 @@ app.get("/", async (c) => {
 	return c.json(content);
 });
 
-const port = 3000;
+const port = 80;
 console.log(`Server is running on port ${port}`);
 
 serve({
